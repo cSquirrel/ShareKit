@@ -52,6 +52,11 @@ typedef enum
 	NSData *data;
 	NSString *mimeType;
 	NSString *filename;
+    
+    // Used by Facebook Sharer 
+    // when you want to pass JSON dictionary string 
+    // describing custom attachment
+    NSString *attachment;
 	
 	@private
 		NSMutableDictionary *custom;
@@ -70,6 +75,7 @@ typedef enum
 @property (nonatomic, retain)	NSData *data;
 @property (nonatomic, retain)	NSString *mimeType;
 @property (nonatomic, retain)	NSString *filename;
+@property (nonatomic, retain)	NSString *attachment;
 
 + (SHKItem *)URL:(NSURL *)url title:(NSString *)title;
 + (SHKItem *)image:(UIImage *)image title:(NSString *)title;

@@ -142,19 +142,25 @@
 {			
 	if (item.shareType == SHKShareTypeURL)
 	{
+        
 		self.pendingFacebookAction = SHKFacebookPendingStatus;
 		
 		SHKFBStreamDialog* dialog = [[[SHKFBStreamDialog alloc] init] autorelease];
 		dialog.delegate = self;
 		dialog.userMessagePrompt = SHKLocalizedString(@"Enter your message:");
-		dialog.attachment = [NSString stringWithFormat:
-							 @"{\
-							 \"name\":\"%@\",\
-							 \"href\":\"%@\"\
-							 }",
-							 item.title == nil ? SHKEncodeURL(item.URL) : SHKEncode(item.title),
-							 SHKEncodeURL(item.URL)
-							 ];
+		if(item.attachment) {
+            // custom attachment detected
+			dialog.attachment = item.attachment;
+		} else {
+            dialog.attachment = [NSString stringWithFormat:
+                                 @"{\
+                                 \"name\":\"%@\",\
+                                 \"href\":\"%@\"\
+                                 }",
+                                 item.title == nil ? SHKEncodeURL(item.URL) : SHKEncode(item.title),
+                                 SHKEncodeURL(item.URL)
+                                 ];
+        }
 		dialog.defaultStatus = item.text;
 		dialog.actionLinks = [NSString stringWithFormat:@"[{\"text\":\"Get %@\",\"href\":\"%@\"}]",
 							  SHKEncode(SHKMyAppName),
