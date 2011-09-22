@@ -6,4 +6,6 @@
 *.mode1v3
 build
 .DS_Store
-Classes/ShareKit/SHKConfig.h
+#Classes/ShareKit/SHKConfig.h
+ShareKit.xcodeproj/project.xcworkspace/xcuserdata/
+ShareKit.xcodeproj/xcuserdata/
