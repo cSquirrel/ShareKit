@@ -29,6 +29,12 @@
 #import "SHK.h"
 #import "SHKOAuthSharer.h"
 
+@interface SHKOAuthView (PrivateMethods)
+
+    -(void)cancel;
+
+@end
+
 @implementation SHKOAuthView
 
 @synthesize webView, delegate, spinner;
@@ -96,9 +102,15 @@
 			}
 		}
 		
-		[delegate tokenAuthorizeView:self didFinishWithSuccess:YES queryParams:queryParams error:nil];
-		self.delegate = nil;
-		
+        // CHANGE:
+        // Twitter exposes "Cancel and return to app" link.
+        // The following should intercept that action and trigger 'cancel' action
+        if([queryParams objectForKey:@"denied"]) {
+            [self cancel];
+        } else {
+            [delegate tokenAuthorizeView:self didFinishWithSuccess:YES queryParams:queryParams error:nil];
+            self.delegate = nil;
+		}
 		return NO;
 	}
 	
