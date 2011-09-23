@@ -153,13 +153,13 @@
 	
 	if (!success)
 	{
-		[[[[UIAlertView alloc] initWithTitle:SHKLocalizedString(@"Authorize Error")
-									 message:error!=nil?[error localizedDescription]:SHKLocalizedString(@"There was an error while authorizing")
-									delegate:nil
-						   cancelButtonTitle:SHKLocalizedString(@"Close")
-						   otherButtonTitles:nil] autorelease] show];
+//		[[[[UIAlertView alloc] initWithTitle:SHKLocalizedString(@"Authorize Error")
+//									 message:error!=nil?[error localizedDescription]:SHKLocalizedString(@"There was an error while authorizing")
+//									delegate:nil
+//						   cancelButtonTitle:SHKLocalizedString(@"Close")
+//						   otherButtonTitles:nil] autorelease] show];
+        [self sendDidFailWithError:error];
 	}	
-	
 	else 
 	{
 		self.authorizeResponseQueryVars = queryParams;
@@ -171,6 +171,7 @@
 - (void)tokenAuthorizeCancelledView:(SHKOAuthView *)authView
 {
 	[[SHK currentHelper] hideCurrentViewControllerAnimated:YES];	
+    [self sendDidCancel];
 }
 
 
@@ -224,25 +225,30 @@
 		[responseBody release];
 		
 		[self storeAccessToken];
+        if([self isAuthorized]){
+            [self sendDidAuthorized];
+        } else {
+            [self sendDidFailWithError:nil];
+        }
 		
 		[self tryPendingAction];
-	}
-	
-	
-	else
+	} else {
 		// TODO - better error handling here
 		[self tokenAccessTicket:ticket didFailWithError:[SHK error:SHKLocalizedString(@"There was a problem requesting access from %@", [self sharerTitle])]];
+    }
 }
 
 - (void)tokenAccessTicket:(OAServiceTicket *)ticket didFailWithError:(NSError*)error
 {
 	[[SHKActivityIndicator currentIndicator] hide];
 	
-	[[[[UIAlertView alloc] initWithTitle:SHKLocalizedString(@"Access Error")
-								 message:error!=nil?[error localizedDescription]:SHKLocalizedString(@"There was an error while sharing")
-								delegate:nil
-					   cancelButtonTitle:SHKLocalizedString(@"Close")
-					   otherButtonTitles:nil] autorelease] show];
+//	[[[[UIAlertView alloc] initWithTitle:SHKLocalizedString(@"Access Error")
+//								 message:error!=nil?[error localizedDescription]:SHKLocalizedString(@"There was an error while sharing")
+//								delegate:nil
+//					   cancelButtonTitle:SHKLocalizedString(@"Close")
+//					   otherButtonTitles:nil] autorelease] show];
+    
+    [self sendDidFailWithError:error];
 }
 
 - (void)storeAccessToken

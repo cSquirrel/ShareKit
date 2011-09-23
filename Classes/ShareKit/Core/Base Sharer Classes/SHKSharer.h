@@ -38,6 +38,8 @@
 - (void)sharerFinishedSending:(SHKSharer *)sharer;
 - (void)sharer:(SHKSharer *)sharer failedWithError:(NSError *)error shouldRelogin:(BOOL)shouldRelogin;
 - (void)sharerCancelledSending:(SHKSharer *)sharer;
+// CHANGE: Authentication callback
+- (void)sharerDidAuthorized:(SHKSharer *)sharer;
 
 @end
 
@@ -180,6 +182,8 @@ typedef enum
 - (void)sendDidFailWithError:(NSError *)error;
 - (void)sendDidFailWithError:(NSError *)error shouldRelogin:(BOOL)shouldRelogin;
 - (void)sendDidCancel;
+// CHANGE: Authentication callback
+- (void)sendDidAuthorized;
 
 @end
 

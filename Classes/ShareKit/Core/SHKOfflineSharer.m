@@ -153,4 +153,9 @@
 	[self finish];
 }
 
+- (void)sharerDidAuthorized:(SHKSharer *)aSharer {
+	sharer.shareDelegate = nil;
+	[self finish];    
+}
+
 @end

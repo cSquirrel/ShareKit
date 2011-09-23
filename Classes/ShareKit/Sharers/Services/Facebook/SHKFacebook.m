@@ -219,8 +219,9 @@
 
 - (void)dialogDidCancel:(FBDialog*)dialog
 {
-	if (pendingFacebookAction == SHKFacebookPendingStatus)
+	if (pendingFacebookAction == SHKFacebookPendingStatus) {
 		[self sendDidCancel];
+    }
 }
 
 - (BOOL)dialog:(FBDialog*)dialog shouldOpenURLInExternalBrowser:(NSURL*)url
@@ -237,6 +238,10 @@
 	if (pendingFacebookAction == SHKFacebookPendingLogin)
 	{
 		self.pendingFacebookAction = SHKFacebookPendingNone;
+
+        // CHANGE: Authentication callback
+        [self sendDidAuthorized];
+        
 		[self share];
 	}
 }

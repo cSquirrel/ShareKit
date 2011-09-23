@@ -648,6 +648,11 @@
 	
 }
 
+- (void)sharerDidAuthorized:(SHKSharer *)sharer 
+{
+    
+}
+
 #pragma mark -
 #pragma mark Pending Actions
 
@@ -729,5 +734,12 @@
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"SHKSendDidCancel" object:self];
 }
 
+// CHANGE: Authentication callback
+- (void)sendDidAuthorized {
+	if ([shareDelegate respondsToSelector:@selector(sharerDidAuthorized:)])
+		[shareDelegate performSelector:@selector(sharerDidAuthorized:) withObject:self];	
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"SHKSharerDidAuthorized" object:self];    
+}
 
 @end
